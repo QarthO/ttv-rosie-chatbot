@@ -18,9 +18,10 @@ channel = 'roselol'
 
 cmds = ''
 broadcasts = ''
+listeners = ''
 
 # Reads config files
-with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broadcasts.yml') as f_broadcasts:
+with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broadcasts.yml') as f_broadcasts, open('listeners.yml') as f_listeners:
     data = yaml.load(f_auth, Loader=yaml.FullLoader)
     irc_token = data.get('auth-id')
     client_id = data.get('client-id')
@@ -28,6 +29,8 @@ with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broad
     cmds = data.get('commands')
     data = yaml.load(f_broadcasts, Loader=yaml.FullLoader)
     broadcasts = data.get('broadcasts')
+    data = yaml.load(f_listeners, Loader=yaml.FullLoader)
+    listeners = data.get('listeners')
 
 # Main Twitch Bot Class
 class Bot(commands.Bot):
@@ -153,11 +156,10 @@ class Bot(commands.Bot):
 # ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝       ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
     async def handle_broadcast(self):
-        
         if randint(1,10) == 3:
             ws = bot._ws
             await ws.send_privmsg(channel, f'/me {broadcasts[self.n_current]}')
-            if self.n_current == len(broadcasts): self.n_current = 0 
+            if self.n_current >= len(broadcasts): self.n_current = 0 
             else: self.n_current +=1
         return
 
@@ -169,9 +171,12 @@ class Bot(commands.Bot):
 # ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝                                                                                                                            
 
     async def handle_listener(self, message):
-
-        #code to detect the messages without the !
-
+        msg = message.content
+        for trigger in listeners.keys():
+            if str(trigger) in msg.lower():
+                response = listeners.get(trigger)
+                ws = bot._ws
+                await ws.send_privmsg(channel, f'/me {response}')
         return
 
         
