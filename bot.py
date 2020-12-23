@@ -1,7 +1,6 @@
 import yaml
 from twitchio.ext import commands
-
-
+import datetime
 
 irc_token = ''
 client_id = ''
@@ -11,16 +10,16 @@ channel = 'roselol'
 
 cmds = ''
 
-with open('auth.yml') as f:
-    data = yaml.load(f, Loader=yaml.FullLoader)
+with open('auth.yml') as f_auth, open('commands.yml') as f_commands:
+    data = yaml.load(f_auth, Loader=yaml.FullLoader)
     irc_token = data.get('auth-id')
     client_id = data.get('client-id')
-
-with open('commands.yml') as f:
-    data = yaml.load(f, Loader=yaml.FullLoader)
+    data = yaml.load(f_commands, Loader=yaml.FullLoader)
     cmds = data.get('commands')
     
 class Bot(commands.Bot):
+
+    cmds_on_cooldown = dict()
 
     def __init__(self):
         super().__init__(
@@ -33,7 +32,9 @@ class Bot(commands.Bot):
 
     # On bot startup
     async def event_ready(self):
-        print(f'Bot connected to twitch.tv/roselol')
+        print(f'\nBot: {bot_nick}')
+        print(f'Channel: {channel}')
+        print('Connected!\n')
         ws = bot._ws  # this is only needed to send messages within event_ready
         await ws.send_privmsg(channel, f"/me is online")
 
@@ -70,8 +71,44 @@ class Bot(commands.Bot):
 
     @commands.command(name='commands_from_file', aliases=cmds.keys())
     async def commands_from_file(self, ctx):
-        response = cmds.get(ctx.content[1:]).get('response')
-        await ctx.send(response)
+        cmd_label = ctx.content[1:]
+        cmd = cmds.get(cmd_label)
+        if not self.check_roles(cmd_label, ctx.author): return
+        if not self.check_cooldown(cmd_label):
+            response = cmd.get('response')
+            cooldown = cmd.get('cooldown')
+            available_time = datetime.datetime.now() + datetime.timedelta(seconds=cooldown)
+            self.cmds_on_cooldown[cmd_label] = available_time
+            await ctx.send(f'/me {response}')
+        self.check_roles(cmd_label, ctx.author)
+    
+    def check_cooldown(self, cmd_label):
+        if cmd_label in self.cmds_on_cooldown.keys():
+            available_time = self.cmds_on_cooldown.get(cmd_label)
+            if datetime.datetime.now() > available_time:
+                del self.cmds_on_cooldown[cmd_label]
+                return False
+            return True
+        return False
+
+    def check_roles(self, cmd_label, user):
+        cmd = cmds.get(cmd_label)
+        cmd_roles = cmd.get('roles')
+        user_roles = self.get_roles(user)
+        mixed = set(cmd_roles) & set(self.get_roles(user))
+        return True if mixed else False
+
+    def get_roles(self, user):
+        roles = []
+        badges = user._badges
+        if 'broadcaster' in badges: roles.append('broadcaster')
+        if 'moderator' in badges: roles.append('mod')
+        if 'vip' in badges: roles.append('vip')
+        if 'subscriber' in badges: roles.append('sub')
+        roles.append('pleb')
+        return roles
+
+
 
 bot = Bot()
 bot.run()
