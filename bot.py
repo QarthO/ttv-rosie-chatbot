@@ -1,6 +1,14 @@
+# ██████╗  ██████╗ ███████╗██████╗  ██████╗ ████████╗
+# ██╔══██╗██╔═══██╗██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝
+# ██████╔╝██║   ██║███████╗██████╔╝██║   ██║   ██║   
+# ██╔══██╗██║   ██║╚════██║██╔══██╗██║   ██║   ██║   
+# ██║  ██║╚██████╔╝███████║██████╔╝╚██████╔╝   ██║   
+# ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝                                                    
+
 import yaml
 from twitchio.ext import commands
 import datetime
+from random import randint
 
 irc_token = ''
 client_id = ''
@@ -9,17 +17,24 @@ command_prefix = '!'
 channel = 'roselol'
 
 cmds = ''
+broadcasts = ''
 
-with open('auth.yml') as f_auth, open('commands.yml') as f_commands:
+# Reads config files
+with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broadcasts.yml') as f_broadcasts:
     data = yaml.load(f_auth, Loader=yaml.FullLoader)
     irc_token = data.get('auth-id')
     client_id = data.get('client-id')
     data = yaml.load(f_commands, Loader=yaml.FullLoader)
     cmds = data.get('commands')
-    
+    data = yaml.load(f_broadcasts, Loader=yaml.FullLoader)
+    broadcasts = data.get('broadcasts')
+
+# Main Twitch Bot Class
 class Bot(commands.Bot):
 
     cmds_on_cooldown = dict()
+    n_current = 0
+    time_last_broadcast = ''
 
     def __init__(self):
         super().__init__(
@@ -35,17 +50,39 @@ class Bot(commands.Bot):
         print(f'\nBot: {bot_nick}')
         print(f'Channel: {channel}')
         print('Connected!\n')
-        ws = bot._ws  # this is only needed to send messages within event_ready
+        ws = bot._ws
         await ws.send_privmsg(channel, f"/me is online")
 
     # Everytime a message is sent in the channel
     async def event_message(self, message):
         await self.handle_commands(message)
+        await self.handle_broadcast()
+        await self.handle_listener(message)
 
-    # Advance Commdands
+    
+
+#  ██████╗ ██████╗ ███╗   ███╗███╗   ███╗ █████╗ ███╗   ██╗██████╗     ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+# ██╔════╝██╔═══██╗████╗ ████║████╗ ████║██╔══██╗████╗  ██║██╔══██╗    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
+# ██║     ██║   ██║██╔████╔██║██╔████╔██║███████║██╔██╗ ██║██║  ██║    ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
+# ██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚██╗██║██║  ██║    ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
+# ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║██████╔╝    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
+#  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
+                                                                                                                                
+
+                                                                                                                                
+    @commands.command(name='commands', aliases={'cmds'})
+    async def cmd_list_commands(self, ctx):
+        cmd_label_list = cmds.keys()
+        response = '/me !' + ', !'.join(cmd_label_list + ', !shoutout, !so, !timeout, !vanish')
+        await ctx.send(response)
+
     @commands.command(name='shoutout', aliases={'so'})
     async def cmd_shoutout(self, ctx):
         msg = ctx.content.split()
+        user_roles = self.get_roles(ctx.author)
+        cmd_roles = ['mod', 'broadcaster']
+        mixed = set(cmd_roles) & set(user_roles)
+        if not mixed: return
         if len(msg) != 2: return
         who = msg[1][1:] if msg[1].startswith('@') else msg[1]
         print(f'Shouting out: {who}')
@@ -108,7 +145,36 @@ class Bot(commands.Bot):
         roles.append('pleb')
         return roles
 
+# ██████╗ ██████╗  ██████╗  █████╗ ██████╗  ██████╗ █████╗ ███████╗████████╗    ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+# ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
+# ██████╔╝██████╔╝██║   ██║███████║██║  ██║██║     ███████║███████╗   ██║       ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
+# ██╔══██╗██╔══██╗██║   ██║██╔══██║██║  ██║██║     ██╔══██║╚════██║   ██║       ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
+# ██████╔╝██║  ██║╚██████╔╝██║  ██║██████╔╝╚██████╗██║  ██║███████║   ██║       ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
+# ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝       ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
+    async def handle_broadcast(self):
+        
+        if randint(1,10) == 3:
+            ws = bot._ws
+            await ws.send_privmsg(channel, f'/me {broadcasts[self.n_current]}')
+            if self.n_current == len(broadcasts): self.n_current = 0 
+            else: self.n_current +=1
+        return
 
+# ██╗     ██╗███████╗████████╗███████╗███╗   ██╗███████╗██████╗     ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+# ██║     ██║██╔════╝╚══██╔══╝██╔════╝████╗  ██║██╔════╝██╔══██╗    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
+# ██║     ██║███████╗   ██║   █████╗  ██╔██╗ ██║█████╗  ██████╔╝    ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
+# ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗    ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
+# ███████╗██║███████║   ██║   ███████╗██║ ╚████║███████╗██║  ██║    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
+# ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝                                                                                                                            
+
+    async def handle_listener(self, message):
+
+        #code to detect the messages without the !
+
+        return
+
+        
 bot = Bot()
 bot.run()
+

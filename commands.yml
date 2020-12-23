@@ -1,3 +1,5 @@
+# Commands
+
 # command_name:
 #   response: {response}
 #   cooldown: {time in seconds}
@@ -18,13 +20,13 @@ default:
 
 commands:
   discord:
-    response: "My discord: https://discord.gg/u4XF65k"
+    response: "https://discord.gg/u4XF65k"
     cooldown: 5
     prefix: true
     roles:
       - pleb
   twitter:
-    response: "My twitter: https://twitter.com/rohhse"
+    response: "https://twitter.com/rohhse"
     cooldown: 5
     prefix: true
     roles:
