@@ -121,4 +121,10 @@ commands:
     prefix: true
     roles:
       - pleb
+  kimchkim:
+    response: "https://clips.twitch.tv/SweetWittyGullRitzMitz"
+    cooldown: 5
+    prefix: true
+    roles:
+      - pleb
 

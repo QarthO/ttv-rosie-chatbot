@@ -12,9 +12,9 @@ from random import randint
 
 irc_token = ''
 client_id = ''
-bot_nick = 'roseiol'
+bot_nick = ''
 command_prefix = '!'
-channel = 'roselol'
+channel = ''
 
 cmds = ''
 broadcasts = ''
@@ -25,6 +25,9 @@ with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broad
     data = yaml.load(f_auth, Loader=yaml.FullLoader)
     irc_token = data.get('auth-id')
     client_id = data.get('client-id')
+    bot_nick = data.get('bot-name')
+    command_prefix = data.get('cmd-prefix')
+    channel = data.get('channel')
     data = yaml.load(f_commands, Loader=yaml.FullLoader)
     cmds = data.get('commands')
     data = yaml.load(f_broadcasts, Loader=yaml.FullLoader)
@@ -58,8 +61,9 @@ class Bot(commands.Bot):
 
     # Everytime a message is sent in the channel
     async def event_message(self, message):
+        if message.author.name == 'roseiol': return
         await self.handle_commands(message)
-        await self.handle_broadcast()
+        await self.handle_broadcast(message)
         await self.handle_listener(message)
 
     
@@ -70,9 +74,7 @@ class Bot(commands.Bot):
 # ██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚██╗██║██║  ██║    ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
 # ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║██████╔╝    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
 #  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
-                                                                                                                                
-
-                                                                                                                                
+                                                                                                                                                                                                                                                                
     @commands.command(name='commands', aliases={'cmds'})
     async def cmd_list_commands(self, ctx):
         cmd_label_list = cmds.keys()
@@ -155,11 +157,12 @@ class Bot(commands.Bot):
 # ██████╔╝██║  ██║╚██████╔╝██║  ██║██████╔╝╚██████╗██║  ██║███████║   ██║       ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
 # ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═════╝  ╚═════╝╚═╝  ╚═╝╚══════╝   ╚═╝       ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
-    async def handle_broadcast(self):
+    async def handle_broadcast(self, message):
+        if message.author.name == 'roseiol': return
         if randint(1,10) == 3:
             ws = bot._ws
             await ws.send_privmsg(channel, f'/me {broadcasts[self.n_current]}')
-            if self.n_current >= len(broadcasts): self.n_current = 0 
+            if self.n_current >= (len(broadcasts)-1): self.n_current = 0 
             else: self.n_current +=1
         return
 
@@ -173,10 +176,11 @@ class Bot(commands.Bot):
     async def handle_listener(self, message):
         msg = message.content
         for trigger in listeners.keys():
-            if str(trigger) in msg.lower():
+            if str(trigger) in msg.lower().split(' '):
                 response = listeners.get(trigger)
                 ws = bot._ws
                 await ws.send_privmsg(channel, f'/me {response}')
+                return
         return
 
         
