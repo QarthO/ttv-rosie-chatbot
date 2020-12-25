@@ -21,7 +21,7 @@ broadcasts = ''
 listeners = ''
 
 # Reads config files
-with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broadcasts.yml') as f_broadcasts, open('listeners.yml') as f_listeners:
+with open('Chat-Bot/auth.yml') as f_auth, open('Chat-Bot/commands.yml') as f_commands, open('Chat-Bot/broadcasts.yml') as f_broadcasts, open('Chat-Bot/listeners.yml') as f_listeners:
     data = yaml.load(f_auth, Loader=yaml.FullLoader)
     irc_token = data.get('auth-id')
     client_id = data.get('client-id')
