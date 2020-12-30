@@ -1,14 +1,15 @@
 # ██████╗  ██████╗ ███████╗██████╗  ██████╗ ████████╗
 # ██╔══██╗██╔═══██╗██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝
-# ██████╔╝██║   ██║███████╗██████╔╝██║   ██║   ██║   
-# ██╔══██╗██║   ██║╚════██║██╔══██╗██║   ██║   ██║   
-# ██║  ██║╚██████╔╝███████║██████╔╝╚██████╔╝   ██║   
-# ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝                                                    
+# ██████╔╝██║   ██║███████╗██████╔╝██║   ██║   ██║
+# ██╔══██╗██║   ██║╚════██║██╔══██╗██║   ██║   ██║
+# ██║  ██║╚██████╔╝███████║██████╔╝╚██████╔╝   ██║
+# ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝
 
 import yaml
 from twitchio.ext import commands
 import datetime
 from random import randint
+import requests
 
 irc_token = ''
 client_id = ''
@@ -45,8 +46,8 @@ class Bot(commands.Bot):
     def __init__(self):
         super().__init__(
             irc_token=irc_token,
-            client_id=client_id, 
-            nick=bot_nick, 
+            client_id=client_id,
+            nick=bot_nick,
             prefix=command_prefix,
             initial_channels=[channel]
         )
@@ -63,18 +64,18 @@ class Bot(commands.Bot):
     async def event_message(self, message):
         if message.author.name == 'roseiol': return
         await self.handle_commands(message)
-        await self.handle_broadcast(message)
         await self.handle_listener(message)
+        await self.handle_broadcast(message)
 
-    
 
-#  ██████╗ ██████╗ ███╗   ███╗███╗   ███╗ █████╗ ███╗   ██╗██████╗     ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+
+#  ██████╗ ██████╗ ███╗   ███╗███╗   ███╗ █████╗ ███╗   ██╗██████╗     ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗
 # ██╔════╝██╔═══██╗████╗ ████║████╗ ████║██╔══██╗████╗  ██║██╔══██╗    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
 # ██║     ██║   ██║██╔████╔██║██╔████╔██║███████║██╔██╗ ██║██║  ██║    ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
 # ██║     ██║   ██║██║╚██╔╝██║██║╚██╔╝██║██╔══██║██║╚██╗██║██║  ██║    ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
 # ╚██████╗╚██████╔╝██║ ╚═╝ ██║██║ ╚═╝ ██║██║  ██║██║ ╚████║██████╔╝    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
 #  ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
-                                                                                                                                                                                                                                                                
+
     @commands.command(name='commands', aliases={'cmds'})
     async def cmd_list_commands(self, ctx):
         cmd_label_list = cmds.keys()
@@ -98,11 +99,11 @@ class Bot(commands.Bot):
     async def cmd_timeout(self, ctx):
         username = ctx.author.name
         time = 5
-        reason = 'You timed yourself out... lol!'
+        reason = 'u timed urself out'
         print(f'Self timing out: {username}')
         await ctx.send(f'/me bye bye @{username}!!!')
         await ctx.timeout(user=username, duration=time, reason=reason)
-    
+
     @commands.command(name='vanish')
     async def cmd_vanish(self, ctx):
         username = ctx.author.name
@@ -123,7 +124,19 @@ class Bot(commands.Bot):
             self.cmds_on_cooldown[cmd_label] = available_time
             await ctx.send(f'/me {response}')
         self.check_roles(cmd_label, ctx.author)
-    
+
+    @commands.command(name='title')
+    async def cmd_title(self, ctx):
+        msg = ctx.content
+        user_roles = self.get_roles(ctx.author)
+        cmd_roles = ['mod', 'broadcaster']
+        mixed = set(cmd_roles) & set(user_roles)
+        if not mixed: return
+        if len(msg) < 2: return
+        new_title = msg.split(" ")[1:]
+        self.change_title(new_title)
+        await ctx.send(f'/me title changed to: {new_title}')
+
     def check_cooldown(self, cmd_label):
         if cmd_label in self.cmds_on_cooldown.keys():
             available_time = self.cmds_on_cooldown.get(cmd_label)
@@ -150,7 +163,14 @@ class Bot(commands.Bot):
         roles.append('pleb')
         return roles
 
-# ██████╗ ██████╗  ██████╗  █████╗ ██████╗  ██████╗ █████╗ ███████╗████████╗    ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+    def change_title(self, title):
+        url = "https://api.twitch.tv/kraken/channels/roselol"
+        headers = {"Client-ID" : ""+ client_id +"", "Authorization": "OAuth "+ "oauth:spuet8fibbw5kczk9pmu2xkb34j54n"}
+        data = {"channel": {"status": title}}
+        response = requests.put(url=url, headers=headers, params = data)
+        print(response.status_code)
+
+# ██████╗ ██████╗  ██████╗  █████╗ ██████╗  ██████╗ █████╗ ███████╗████████╗    ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗
 # ██╔══██╗██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔════╝██╔══██╗██╔════╝╚══██╔══╝    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
 # ██████╔╝██████╔╝██║   ██║███████║██║  ██║██║     ███████║███████╗   ██║       ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
 # ██╔══██╗██╔══██╗██║   ██║██╔══██║██║  ██║██║     ██╔══██║╚════██║   ██║       ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
@@ -159,19 +179,21 @@ class Bot(commands.Bot):
 
     async def handle_broadcast(self, message):
         if message.author.name == 'roseiol': return
-        if randint(1,10) == 3:
+        msg = message.content.split(" ")
+        if (set(msg) & set(listeners.keys())) or message.content[0] == "!": return
+        if randint(1,15) == 3:
             ws = bot._ws
             await ws.send_privmsg(channel, f'/me {broadcasts[self.n_current]}')
-            if self.n_current >= (len(broadcasts)-1): self.n_current = 0 
+            if self.n_current >= (len(broadcasts)-1): self.n_current = 0
             else: self.n_current +=1
         return
 
-# ██╗     ██╗███████╗████████╗███████╗███╗   ██╗███████╗██████╗     ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗ 
+# ██╗     ██╗███████╗████████╗███████╗███╗   ██╗███████╗██████╗     ██╗  ██╗ █████╗ ███╗   ██╗██████╗ ██╗     ███████╗██████╗
 # ██║     ██║██╔════╝╚══██╔══╝██╔════╝████╗  ██║██╔════╝██╔══██╗    ██║  ██║██╔══██╗████╗  ██║██╔══██╗██║     ██╔════╝██╔══██╗
 # ██║     ██║███████╗   ██║   █████╗  ██╔██╗ ██║█████╗  ██████╔╝    ███████║███████║██╔██╗ ██║██║  ██║██║     █████╗  ██████╔╝
 # ██║     ██║╚════██║   ██║   ██╔══╝  ██║╚██╗██║██╔══╝  ██╔══██╗    ██╔══██║██╔══██║██║╚██╗██║██║  ██║██║     ██╔══╝  ██╔══██╗
 # ███████╗██║███████║   ██║   ███████╗██║ ╚████║███████╗██║  ██║    ██║  ██║██║  ██║██║ ╚████║██████╔╝███████╗███████╗██║  ██║
-# ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝                                                                                                                            
+# ╚══════╝╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
 
     async def handle_listener(self, message):
         msg = message.content
@@ -183,7 +205,6 @@ class Bot(commands.Bot):
                 return
         return
 
-        
+
 bot = Bot()
 bot.run()
-

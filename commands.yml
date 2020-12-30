@@ -38,7 +38,7 @@ commands:
     roles:
       - pleb
   end:
-    response: "im ending stream... bye"
+    response: "follow my !socials, join my discord, i stream every day except saturday starting 12pm"
     cooldown: 5
     prefix: true
     roles:
@@ -104,7 +104,7 @@ commands:
     roles:
       - pleb
   patrick:
-    response: "https://www.twitch.tv/roselol/clip/ShakingSincereSkirretBCouch?filter=clips&range=7d&sort=time"
+    response: "https://www.twitch.tv/roselol/clip/ShakingSincereSkirretBCouch?filter=clips&range=7d&sort=time https://www.twitch.tv/patreeeeek"
     cooldown: 5
     prefix: true
     roles:
@@ -122,9 +122,32 @@ commands:
     roles:
       - pleb
   kimchkim:
-    response: "https://clips.twitch.tv/SweetWittyGullRitzMitz"
+    response: "https://clips.twitch.tv/SweetWittyGullRitzMitz https://www.twitch.tv/kimchkim"
     cooldown: 5
     prefix: true
     roles:
       - pleb
-
+  raid:
+    response: "rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC"
+    cooldown: 5
+    prefix: true
+    roles:
+      - pleb
+  roselol:
+    response: "HELLO i am a diamond mid lane league of legends player and i also stream just chatting and art and interview people every friday!!!"
+    cooldown: 5
+    prefix: true
+    roles:
+      - pleb
+  emotes:
+    response: "rosePOP rosClap rosD kimchB tiffShy tiffGiggles catJAM elenaEat TANTIES peepoNarutoRun SHRUGGERS peepoShy pepeD peepoRain NODDERS NOPERS SHITTERS YAPPP BOOBA POGSLIDE"
+    cooldown: 5
+    prefix: true
+    roles:
+      - pleb
+  socials:
+    response: "all my links are on roselol.com"
+    cooldown: 5
+    prefix: true
+    roles:
+      - pleb
