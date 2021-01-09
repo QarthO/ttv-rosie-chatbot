@@ -1,9 +1,9 @@
-# ██████╗  ██████╗ ███████╗██████╗  ██████╗ ████████╗
-# ██╔══██╗██╔═══██╗██╔════╝██╔══██╗██╔═══██╗╚══██╔══╝
-# ██████╔╝██║   ██║███████╗██████╔╝██║   ██║   ██║
-# ██╔══██╗██║   ██║╚════██║██╔══██╗██║   ██║   ██║
-# ██║  ██║╚██████╔╝███████║██████╔╝╚██████╔╝   ██║
-# ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚═════╝  ╚═════╝    ╚═╝
+#████████╗██╗    ██╗██╗████████╗ ██████╗██╗  ██╗     ██████╗██╗  ██╗ █████╗ ████████╗██████╗  ██████╗ ████████╗
+#╚══██╔══╝██║    ██║██║╚══██╔══╝██╔════╝██║  ██║    ██╔════╝██║  ██║██╔══██╗╚══██╔══╝██╔══██╗██╔═══██╗╚══██╔══╝
+#   ██║   ██║ █╗ ██║██║   ██║   ██║     ███████║    ██║     ███████║███████║   ██║   ██████╔╝██║   ██║   ██║   
+#   ██║   ██║███╗██║██║   ██║   ██║     ██╔══██║    ██║     ██╔══██║██╔══██║   ██║   ██╔══██╗██║   ██║   ██║   
+#   ██║   ╚███╔███╔╝██║   ██║   ╚██████╗██║  ██║    ╚██████╗██║  ██║██║  ██║   ██║   ██████╔╝╚██████╔╝   ██║   
+#   ╚═╝    ╚══╝╚══╝ ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═════╝  ╚═════╝    ╚═╝                                                                                                             
 
 import yaml
 from twitchio.ext import commands
@@ -22,7 +22,7 @@ broadcasts = ''
 listeners = ''
 
 # Reads config files
-with open('auth.yml') as f_auth, open('commands.yml') as f_commands, open('broadcasts.yml') as f_broadcasts, open('listeners.yml') as f_listeners:
+with open('config/auth.yml') as f_auth, open('config/commands.yml') as f_commands, open('config/broadcasts.yml') as f_broadcasts, open('config/listeners.yml') as f_listeners:
     data = yaml.load(f_auth, Loader=yaml.FullLoader)
     irc_token = data.get('auth-id')
     client_id = data.get('client-id')
