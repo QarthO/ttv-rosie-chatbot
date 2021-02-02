@@ -1,153 +1,311 @@
-# Commands
-
-# command_name:
-#   response: {response}
-#   cooldown: {time in seconds}
-#   prefix: {does it need a command prefix}
-#   roles:
-#     - {what role(s) can use this command}
-#     - {any role in this list will have access to the command}
 default:
-  respone: "Default Response!"
+  aliases:
   cooldown: 5
   prefix: true
+  response: This is an example response!
   roles:
+  - pleb
+simple-commands:
+  apples:
+    cooldown: 5
+    prefix: true
+    response: https://www.twitch.tv/roselol/clip/DependableRelatedCoffeeStinkyCheese?filter=clips&range=24hr&sort=time
+    roles:
+    - pleb
+  catmarching:
+    cooldown: 5
+    prefix: true
+    response: "https://www.youtube.com/watch?v=lAIGb1lfpBw&t=14s"
+    roles:
+    - pleb
+  commission:
+    cooldown: 5
+    prefix: true
+    response: "https://roselol.com/"
+    roles:
+    - pleb
+  discord:
+    cooldown: 5
+    prefix: true
+    response: "https://roselol.com/discord/"
+    roles:
+    - pleb
+  soclip:
+    cooldown: 5
+    prefix: true
+    response: "https://www.twitch.guru/tools/soclip.html"
+    roles:
+    - pleb
+  emotes:
+    aliases:
+    - emote
+    cooldown: 5
+    prefix: true
+    response: rosePOP rosClap rosD kimchB tiffShy tiffGiggles catJAM elenaEat TANTIES
+      peepoNarutoRun SHRUGGERS peepoShy pepeD peepoRain NODDERS NOPERS SHITTERS YAPPP
+      BOOBA POGSLIDE
+    roles:
+    - pleb
+  end:
+    cooldown: 5
+    prefix: true
+    response: follow my !socials and join my !discord, i stream every day except saturday
+      starting 12pm
+    roles:
     - broadcaster
-    - mod
-    - vip
-    - sub
+  gettingoverit:
+    cooldown: 5
+    prefix: true
+    response: https://clips.twitch.tv/PatientCheerfulAubergineJebaited https://clips.twitch.tv/GoodCooperativeMilkPipeHype
+      https://clips.twitch.tv/CourageousEagerDonkeyUWot
+    roles:
+    - pleb
+  instagram:
+    cooldown: 5
+    prefix: true
+    response: https://roselol.com/instagram
+    roles:
+    - pleb
+  kimchkim:
+    cooldown: 5
+    prefix: true
+    response: https://clips.twitch.tv/SweetWittyGullRitzMitz https://www.twitch.tv/kimchkim
+    roles:
+    - pleb
+  lurk:
+    cooldown: 5
+    prefix: true
+    response: Thanks for the +1 rosClap
+    roles:
+    - pleb
+  money:
+    cooldown: 5
+    prefix: true
+    response: https://clips.twitch.tv/FaithfulFlaccidStarTinyFace
+    roles:
+    - pleb
+  patrick:
+    cooldown: 5
+    prefix: true
+    response: https://www.twitch.tv/roselol/clip/ShakingSincereSkirretBCouch?filter=clips&range=7d&sort=time
+      https://www.twitch.tv/patreeeeek
+    roles:
+    - pleb
+  playlist:
+    cooldown: 5
+    prefix: false
+    response: "https://roselol.com/playlist"
+    roles:
+    - pleb
+  raid:
+    cooldown: 5
+    prefix: true
+    response: rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC
+      rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose
+      raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid
+      roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC
+      rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose
+      raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid
+      roseloC rose raid roseloC
+    roles:
+    - pleb
+  rhydon:
+    cooldown: 5
+    prefix: false
+    response: rhydon deez nuts
+    roles:
+    - pleb
+  roselol:
+    cooldown: 5
+    prefix: true
+    response: HELLO i am a diamond mid lane league of legends player and i also stream
+      just chatting and art and interview people every friday!!!
+    roles:
+    - pleb
+  socials:
+    cooldown: 5
+    prefix: true
+    response: "https://roselol.com/twitter https://roselol.com/instagram https://roselol.com/youtube"
+    roles:
+    - pleb
+  twitter:
+    cooldown: 5
+    prefix: true
+    response: "https://roselol.com/twitter"
+    roles:
+    - pleb
+  unlurk:
+    cooldown: 5
+    prefix: true
+    response: Welcome back!
+    roles:
+    - pleb
+  uwu:
+    cooldown: 5
+    prefix: true
+    response: https://www.twitch.tv/roselol/clip/AgreeableTentativeSushiFloof?filter=clips&range=30d&sort=time
+    roles:
+    - pleb
+  website:
+    cooldown: 5
+    prefix: true
+    response: rosD https://roselol.com/ rosD
+    roles:
+    - pleb
+  yoshi:
+    cooldown: 5
+    prefix: true
+    response: https://www.twitch.tv/roselol/clip/SilkyInexpensiveCoyoteAMPTropPunch?filter=clips&range=7d&sort=time
+    roles:
+    - pleb
+  youtube:
+    cooldown: 5
+    prefix: true
+    response: rosD my youtube channel https://roselol.com/youtube rosD
+    roles:
+    - pleb
+  hey: 
+    cooldown: 5
+    prefix: false
+    response: "hi tiffShy"
+    roles:
+    - pleb
+  oops: 
+    cooldown: 5
+    prefix: false
+    response: "yep catJAM"
+    roles:
+    - pleb
+  shit: 
+    cooldown: 5
+    prefix: false
+    response: "SHITTERS"
+    roles:
+    - pleb
+  nice: 
+    cooldown: 5
+    prefix: false
+    response: "POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE POGSLIDE"
+    roles:
+    - pleb
+  catjam: 
+    cooldown: 5
+    prefix: false
+    response: "catJAM catJAM catJAM catJAM catJAM catJAM catJAM catJAM catJAM catJAM catJAM catJAM"
+    roles:
+    - pleb
+  lul: 
+    cooldown: 5
+    prefix: false
+    response: "LUL"
+    roles:
+    - pleb
+  yes: 
+    cooldown: 5
+    prefix: false
+    response: "NOPERS"
+    roles:
+    - pleb
+  joe: 
+    cooldown: 5
+    prefix: false
+    response: "joe mama pepeD"
+    roles:
+    - pleb
+  rank: 
+    cooldown: 5
+    prefix: false
+    response: "rank your mom NODDERS"
+    roles:
+    - pleb
+  hi: 
+    cooldown: 5
+    prefix: false
+    response: "hey peepoShy"
+    roles:
+    - pleb
+  pc: 
+    cooldown: 5
+    prefix: false
+    response: "my pc parts: https://roselol.com/pc"
+    roles:
     - pleb
 
-commands:
-  discord:
-    response: "https://discord.gg/u4XF65k"
+smart-commands:
+  addcom:
+    aliases:
+    - add_command
+    - add_com
+    - add_cmd
+    - addcmd
+    - addcommand
     cooldown: 5
+    description: "Adds simple command"
     prefix: true
+    response: "Command Added: {cmd}"
     roles:
-      - pleb
-  twitter:
-    response: "https://twitter.com/rohhse"
+    - mod
+  delcom:
+    aliases:
+    - delete_command
+    - del_cmd
+    - del_com
+    - del_cmd
+    - delcmd
+    - deletecommand
     cooldown: 5
+    description: "Deletes simple command"
     prefix: true
+    response: "Command Deleted: {cmd}"
     roles:
-      - pleb
-  website:
-    response: "rosD https://roselol.com/ rosD"
+    - mod
+  editcom:
+    aliases:
+    - edit_command
+    - edit_cmd
+    - edit_com
+    - editcmd
+    - editcommand
     cooldown: 5
+    description: "Edits simple command"
     prefix: true
+    response: "Commands Edited: {cmd}"
     roles:
-      - pleb
-  end:
-    response: "follow my !socials, join my discord, i stream every day except saturday starting 12pm"
+    - mod
+  commands:
+    aliases:
+    - cmds
     cooldown: 5
+    description: "Lists all commands"
     prefix: true
+    response: "Commands: {cmds}"
     roles:
-      - broadcaster
-  instagram:
-    response: "My insta: https://www.instagram.com/rowstheboat/"
+    - pleb
+  timeout:
+    aliases:
     cooldown: 5
+    description: "Time yourself out"
     prefix: true
+    response: "bye bye {author}"
     roles:
-      - pleb
-  raffle:
-    response: "rosePOP GET RAFFLE TICKET IN POINTS STORE FOR A rosePOP  rosePOP CHANCE TO GET DRAWN IN GIF FORM rosePOP"
+    - pleb
+  shoutout:
+    aliases:
+    - so
     cooldown: 5
+    description: 
     prefix: true
+    response: /me BOOBA go --> https://www.twitch.tv/{who} <-- or i ziggs ult you . . . (in game)
     roles:
-      - pleb
-  youtube:
-    response: "rosD my new youtube video https://bit.ly/38iN6X2 rosD"
+    - mod
+  vanish:
+    aliases:
+    - hide
+    - disappear
     cooldown: 5
+    desciption: "Clears your own chat messages (doesn't work for mods/broadcaster)"
     prefix: true
+    reason: "Clearing your chat messages"
     roles:
-      - pleb
-  rank:
-    response: "rank your mom NODDERS"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  playlist:
-    response: "https://spoti.fi/34r0EhV"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  commission:
-    response: "https://bit.ly/3h6nz7i"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  uwu:
-    response: "https://www.twitch.tv/roselol/clip/AgreeableTentativeSushiFloof?filter=clips&range=30d&sort=time"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  gettingoverit:
-    response: "https://clips.twitch.tv/PatientCheerfulAubergineJebaited https://clips.twitch.tv/GoodCooperativeMilkPipeHype https://clips.twitch.tv/CourageousEagerDonkeyUWot"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  money:
-    response: "https://clips.twitch.tv/FaithfulFlaccidStarTinyFace"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  apples:
-    response: "https://www.twitch.tv/roselol/clip/DependableRelatedCoffeeStinkyCheese?filter=clips&range=24hr&sort=time"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  patrick:
-    response: "https://www.twitch.tv/roselol/clip/ShakingSincereSkirretBCouch?filter=clips&range=7d&sort=time https://www.twitch.tv/patreeeeek"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  yoshi:
-    response: "https://www.twitch.tv/roselol/clip/SilkyInexpensiveCoyoteAMPTropPunch?filter=clips&range=7d&sort=time"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  catmarching:
-    response: "https://www.youtube.com/watch?v=lAIGb1lfpBw&t=14s"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  kimchkim:
-    response: "https://clips.twitch.tv/SweetWittyGullRitzMitz https://www.twitch.tv/kimchkim"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  raid:
-    response: "rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC rose raid roseloC"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  roselol:
-    response: "HELLO i am a diamond mid lane league of legends player and i also stream just chatting and art and interview people every friday!!!"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  emotes:
-    response: "rosePOP rosClap rosD kimchB tiffShy tiffGiggles catJAM elenaEat TANTIES peepoNarutoRun SHRUGGERS peepoShy pepeD peepoRain NODDERS NOPERS SHITTERS YAPPP BOOBA POGSLIDE"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
-  socials:
-    response: "all my links are on roselol.com"
-    cooldown: 5
-    prefix: true
-    roles:
-      - pleb
+    - pleb
+
