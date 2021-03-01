@@ -3,8 +3,8 @@ A twitch.tv chat-bot that can join a channel and utilize simple and custom comma
 
 Uses Python3
 you'll need to add the following packages to your environment:
-  pip install pyyaml
-  pip install twitchio
+- pip install pyyaml
+- pip install twitchio
    
   
   TO-DO:
