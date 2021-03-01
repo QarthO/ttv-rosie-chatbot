@@ -9,9 +9,9 @@ you'll need to add the following packages:
   
   
   TO-DO:
-    - Follow/Sub/Bit notifications
-    - Smart !uptime format
-    - Rewrite !addcom, !delcom, and !editcom
-    - Implement !join, !leave, !queue system
-    - Change game/title with commands
-    - Implement aliases to commands
+  - Follow/Sub/Bit notifications
+  - Smart !uptime format
+  - Rewrite !addcom, !delcom, and !editcom
+  - Implement !join, !leave, !queue system
+  - Change game/title with commands
+  - Implement aliases to commands
