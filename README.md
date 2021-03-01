@@ -7,7 +7,7 @@ you'll need to add the following packages to your environment:
 - pip install twitchio
    
   
-  TO-DO:
+ Bot TO-DOs:
   - Follow/Sub/Bit notifications
   - Smart !uptime format
   - Rewrite !addcom, !delcom, and !editcom
