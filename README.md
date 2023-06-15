@@ -16,6 +16,3 @@ You'll need to create an auth.yml file where you input oauthid so the bot has ac
   - Implement !join, !leave, !queue system
   - Change game/title with commands
   - Implement aliases to commands
-
-
-Currently running 24/7 in twitch.tv/roselol
