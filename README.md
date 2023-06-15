@@ -4,8 +4,8 @@ Designed for [rosie's twitch](https://twitch.tv/rosie/) stream but can be used f
 
 Uses Python3
 you'll need to add the following packages to your environment:
-- pip install pyyaml
-- pip install twitchio
+- pip install [pyyaml](https://pypi.org/project/PyYAML/)
+- pip install [twitchio](https://pypi.org/project/twitchio/)
    
 You'll need to create an auth.yml file where you input oauthid so the bot has accesss to use your account
 
