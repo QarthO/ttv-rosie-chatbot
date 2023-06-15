@@ -1,5 +1,6 @@
-# Twitch-Chat-Bot
-A twitch.tv chat-bot that can join a channel and utilize simple and custom commands
+# ttv rosie chatbot
+A twitch.tv chatbot that can join a channel and utilize simple and custom commands
+Designed for [rosie's twitch](https://twitch.tv/rosie/) stream but can be used for any stream
 
 Uses Python3
 you'll need to add the following packages to your environment:
